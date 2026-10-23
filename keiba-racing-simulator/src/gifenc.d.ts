@@ -1,0 +1,38 @@
+declare module "gifenc" {
+  export type RGB = number[];
+
+  export function quantize(
+    rgba: Uint8Array | Uint8ClampedArray,
+    maxColors: number,
+  ): RGB[];
+
+  export function applyPalette(
+    rgba: Uint8Array | Uint8ClampedArray,
+    palette: RGB[],
+    format?: string,
+  ): Uint8Array;
+
+  export function snapColorsToPalette(
+    palette: RGB[],
+    knownColors: RGB[],
+    threshold?: number,
+  ): void;
+
+  export function GIFEncoder(opts?: {
+    auto?: boolean;
+    initialCapacity?: number;
+  }): {
+    writeFrame(
+      index: Uint8Array,
+      width: number,
+      height: number,
+      opts?: {
+        palette?: RGB[] | null;
+        delay?: number;
+        repeat?: number;
+      },
+    ): void;
+    finish(): void;
+    bytes(): Uint8Array;
+  };
+}
